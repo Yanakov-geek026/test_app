@@ -1,4 +1,6 @@
-﻿using DTO.Request;
+﻿using Domain.Persons;
+using DTO.Request;
+using DTO.Response;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Services;
@@ -11,15 +13,28 @@ namespace test_app.Controllers
 {
     public class AccountController : BaseController
     {
-        private readonly IAccountService accountService;
+        private readonly IAccountService AccountService;
 
         public AccountController(IAccountService accountService)
         {
-            this.accountService = accountService;
+            AccountService = accountService;
         }
 
         [HttpPost(nameof(createPerson))]
-        public IActionResult createPerson([FromBody] PersonDTO request)
-            => Ok(accountService.RegisterPerson(request));
+        public IActionResult createPerson([FromBody] CreatePersonDTO request)
+            => Ok(AccountService.RegisterPerson(request));
+
+        [HttpPost(nameof(addNewSubject))]
+        public IActionResult addNewSubject([FromBody] CreateSubjectDTO request)
+            => Ok(AccountService.AddNewSubject(request));
+
+        [HttpPost(nameof(addRatingPerson))]
+        public IActionResult addRatingPerson([FromBody] CreateRatingDTO request)
+            => Ok(AccountService.AddRatingPerson(request));
+
+
+
+
+
     }
 }

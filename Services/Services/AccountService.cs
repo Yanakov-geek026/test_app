@@ -11,17 +11,34 @@ namespace Services.Services
 {
     class AccountService : BaseCrudService<Person>, IAccountService
     {
-        private IPersonService personService;
+        private IPersonService PersonService;
+        private ISubjectService SubjectService;
+        private IRatingService RatingService;
         
-        public AccountService(IRepository<Person> repository, IPersonService personService) : base(repository)
+        public AccountService(IRepository<Person> repository, 
+            IPersonService personService, ISubjectService subjectService, IRatingService ratingService ) : base(repository)
         {
-            this.personService = personService;
+            this.PersonService = personService;
+            this.SubjectService = subjectService;
+            this.RatingService = ratingService;
         }
 
-        public PersonResponseDTO RegisterPerson(PersonDTO createPerson)
+        public PersonDTO RegisterPerson(CreatePersonDTO createPerson)
         {
-            var person = personService.CreatePerson(createPerson);
-            return new PersonResponseDTO(person);
+            var person = PersonService.CreatePerson(createPerson);
+            return new PersonDTO(person);
+        }        
+
+        public SubjectDTO AddNewSubject(CreateSubjectDTO createSubject)
+        {
+            var subject = SubjectService.addSubject(createSubject);
+            return new SubjectDTO(subject);
+        }
+
+        public RatingDTO AddRatingPerson(CreateRatingDTO createRating)
+        {
+            var rating = RatingService.addRatingPerson(createRating);
+            return new RatingDTO(rating);
         }
     }
 }

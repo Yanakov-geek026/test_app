@@ -6,24 +6,24 @@ using System.Text;
 
 namespace DTO.Response
 {
-    public class PersonResponseDTO
+    public class PersonDTO
     {
-        //public long ID { get; set; }
+        public long Id { get; set; }
         public string FirstName { get; set; } 
         public string LastName { get; set; }
-        public SexType sexType { get; set; }
+        public SexType SexType { get; set; }
 
-        public PersonResponseDTO() { }        
+        public PersonDTO() { }        
 
-        public PersonResponseDTO(Person person)
+        public PersonDTO(Person person)
         {
             if (person == null)
                 return;
 
-            //ID = person.Id;
+            Id = person.Id;
             FirstName = person.FirstName;
             LastName = person.LastName;
-            sexType = person.Sex;
+            SexType = person.Sex;
         }
 
     }

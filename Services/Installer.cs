@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Domain.School;
+using Microsoft.Extensions.DependencyInjection;
 using Services.Services;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,14 @@ namespace Services
         {
             container
                 .AddScoped<IPersonService, PersonService>()
-                .AddScoped<IAccountService, AccountService>();
+                .AddScoped<IAccountService, AccountService>()
+                .AddScoped<ISubjectService, SubjectService>()
+                .AddScoped<IRatingService, RatingService>()
+                .AddScoped<IRatingSubjectService, RatingSubjectService>()
+                .AddScoped<ILessonService, LessonService>()
+                .AddScoped<ISignUpPersonLessonService, SignUpPersonLessonService>()
+                .AddScoped<INumberLessonService, NumberLessonService>()
+                .AddScoped<ITimeTableService, TimeTableService>();
         }
     }
 }

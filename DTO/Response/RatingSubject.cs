@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain
+namespace DTO.Response
 {
-    public abstract class PersistentObject : Entity<long>
+    public class RatingSubject
     {
+
     }
 }

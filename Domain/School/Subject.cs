@@ -6,6 +6,6 @@ namespace Domain.Persons
 {
     public class Subject : PersistentObject
     {
-        public virtual string  Name { get; set; }
+        public virtual string Name { get; set; }
     }
 }

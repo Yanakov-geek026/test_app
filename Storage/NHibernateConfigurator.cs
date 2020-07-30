@@ -4,6 +4,7 @@ using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using Newtonsoft.Json;
 using NHibernate;
+using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Tool.hbm2ddl;
 using Storage.Mappings;
@@ -38,7 +39,7 @@ namespace Storage
             /// </summary>
             public NHibernateConfiguration(string connectionString)
             {
-                var hibernateConfig = Fluently.Configure().Mappings(m => m.FluentMappings.AddFromAssemblyOf<PersonMap>())
+                /*var hibernateConfig = Fluently.Configure().Mappings(m => m.FluentMappings.AddFromAssemblyOf<PersonMap>())
                     .Database(MySQLConfiguration.Standard.Dialect<MySQL5Dialect>().ConnectionString(connectionString).ShowSql()).BuildConfiguration();
 
                 var settings = GetSettings();
@@ -51,7 +52,42 @@ namespace Storage
                     CreateOrUpdateSettings(settings);
                 }
 
-                _sessionFactory = hibernateConfig.BuildSessionFactory();
+                _sessionFactory = hibernateConfig.BuildSessionFactory();*/
+
+
+            }
+
+            private ISessionFactory CreateSessionFactory()
+            {
+                return (ISessionFactory)Fluently
+                    .Configure()
+                        .Database(
+                            PostgreSQLConfiguration.Standard
+                            .ConnectionString(c =>
+                                c.Host("localhost")
+                                .Port(5432)
+                                .Database("mydb")
+                                .Username("postgres")
+                                .Password("Ivan230691")))
+                        .Mappings(m => m.FluentMappings.AddFromAssemblyOf<PersonMap>())
+                        .ExposeConfiguration(TreatConfiguration)
+                    .BuildSessionFactory();
+            }
+
+            private static void TreatConfiguration(Configuration configuration)
+            {
+                // dump sql file for debug
+                Action<string> updateExport = x =>
+                {
+                    using (System.IO.FileStream file = new System.IO.FileStream(@"update.sql", System.IO.FileMode.Append))
+                using (var sw = new System.IO.StreamWriter(file))
+                    {
+                        sw.Write(x);
+                        sw.Close();
+                    }
+                };
+                var update = new SchemaUpdate(configuration);
+                update.Execute(updateExport, true);
             }
 
             /// <summary>

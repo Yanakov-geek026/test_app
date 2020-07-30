@@ -1,4 +1,5 @@
 ﻿using Domain.Persons;
+using Domain.School;
 using DTO.Request;
 using DTO.Response;
 using Storage.Interfaces;
@@ -11,9 +12,11 @@ namespace Services.Services
 {
     public class PersonService : BaseCrudService<Person>, IPersonService
     {
-        public PersonService(IRepository<Person> repository) : base(repository) { }        
+        public PersonService(IRepository<Person> repository) : base(repository) 
+        {
+        }        
 
-        public Person CreatePerson(PersonDTO createPerson)
+        public Person CreatePerson(CreatePersonDTO createPerson)
         {
             var person = new Person()
             {
